@@ -2,7 +2,6 @@ import bpy
 import os
 
 def import_fbx_files_in_grid_with_textures(folder_path):
-    # Store the names of the objects that are imported in this session
     imported_objects = []
 
     for root, dirs, files in os.walk(folder_path):
@@ -10,18 +9,14 @@ def import_fbx_files_in_grid_with_textures(folder_path):
             if file.lower().endswith(".fbx"):
                 file_path = os.path.join(root, file)
 
-                # Import the FBX file
                 bpy.ops.import_scene.fbx(filepath=file_path)
 
-                # Get all imported objects in the scene
                 imported_objects += bpy.context.selected_objects
                 
-                # Clear materials and apply textures for each imported object
                 for obj in imported_objects:
                     clear_materials(obj)
                     apply_textures_from_folder(obj, root)
 
-                # Clear the list for the next imported FBX file
                 imported_objects.clear()
 
 def clear_materials(obj):
@@ -50,7 +45,6 @@ def apply_textures_from_folder(obj, folder_path):
             elif "normal" in file_lower and file_lower.endswith(".jpg"):
                 texture_files["Normal"] = file_path
 
-        # Create a new material and assign it to the object
         material = bpy.data.materials.new(name=f"{obj.name}_Material")
         material.use_nodes = True
         obj.data.materials.append(material)
@@ -58,7 +52,6 @@ def apply_textures_from_folder(obj, folder_path):
         nodes = material.node_tree.nodes
         links = material.node_tree.links
 
-        # Clear existing nodes
         for node in nodes:
             nodes.remove(node)
 
