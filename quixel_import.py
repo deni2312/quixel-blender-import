@@ -88,5 +88,5 @@ def apply_textures_from_folder(obj, folder_path):
             links.new(tex_node.outputs["Color"], normal_map_node.inputs["Color"])
             links.new(normal_map_node.outputs["Normal"], principled_bsdf.inputs["Normal"])
 
-folder_path = "location/quixel/"
+folder_path = "/location/quixel/"
 import_fbx_files_in_grid_with_textures(folder_path)
